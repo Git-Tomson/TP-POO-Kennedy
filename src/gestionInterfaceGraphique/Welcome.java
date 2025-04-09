@@ -9,11 +9,11 @@ import connectionBD.ConnectionToMySQLDB;
 
 
 public class Welcome extends JFrame{
-
+    private ConnectionToDB connect;
     public Welcome() {
         //Image de fond
         ImageIcon imageIcon = new ImageIcon("/home/tomson/Thomas/"+
-                "Cours_3GI/S2/POO2/TP_POO_Kennedy/font.jpg");
+                "Cours_3GI/S2/POO2/TP-POO-Kennedy/fontWelcome.jpg");
         Image image = imageIcon.getImage();
         JPanel pane1 = new JPanel() { //panneau de fond
             @Override
@@ -31,7 +31,7 @@ public class Welcome extends JFrame{
         l1.setAlignmentX(Component.CENTER_ALIGNMENT);
         JLabel l2 = new JLabel("This application help you to save informations about stole things and verify" +
                 " if some things are stolen");
-        setForeground(Color.WHITE);
+        l2.setForeground(Color.WHITE);
         l2.setAlignmentX(Component.CENTER_ALIGNMENT);
         pane1.add(Box.createRigidArea(new Dimension(0, 10)));
         pane1.add(l1);
@@ -42,8 +42,8 @@ public class Welcome extends JFrame{
         pane1.add(new JSeparator(SwingConstants.HORIZONTAL));
         pane1.add(Box.createRigidArea(new Dimension(0, 10)));
         //Création des boutons
-        JButton B1 = new JButton("Login");
-        JButton B2 = new JButton("Sign in");
+        JButton B1 = new JButton("SignIn");
+        JButton B2 = new JButton("SignUp");
         //Panneau des boutons
         JPanel pane2 = new JPanel(new GridLayout(1, 2));
         pane2.setOpaque(false);
@@ -60,22 +60,22 @@ public class Welcome extends JFrame{
         pane1.add(pane2);
         this.setContentPane(pane1);
 
-        ConnectionToDB connect = new ConnectionToMySQLDB();
+        connect = new ConnectionToMySQLDB();
         this.setTitle("Kennedy");
-        this.setSize(600, 300);
+        this.setSize(800, 500);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
         //définissons l'action des boutons
         //Action du bouton B1 (Login)
         B1.addActionListener(e -> {
-            Login loginMySQL = new LoginMySQL(pane1);
-            this.setContentPane(loginMySQL);
+            SignIn signInMySQL = new SignInMySQL(pane1);
+            this.setContentPane(signInMySQL);
         });
         //Action du Bouton B2 (sign in)
         B2.addActionListener(e ->{
-            SignIn signInMySQL = new SignInMySQL(pane1);
-            this.setContentPane(signInMySQL);
+            SignUp signUpMySQL = new SignUpMySQL(pane1);
+            this.setContentPane(signUpMySQL);
         });
 
         this.addWindowListener(new WindowAdapter() {
@@ -85,5 +85,9 @@ public class Welcome extends JFrame{
                 dispose();
             }
         });
+    }
+    public void closeWelcome(){
+        this.connect.closeConnection();
+        dispose();
     }
 }

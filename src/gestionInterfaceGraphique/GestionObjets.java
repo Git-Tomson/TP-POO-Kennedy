@@ -5,11 +5,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class GestionObjets extends JPanel{
-    protected JPanel previous;
-    public GestionObjets(JPanel previous){
-        this.previous = previous;
+    public GestionObjets(){
+
         // Image de fond
-        ImageIcon imageIcon = new ImageIcon("/home/tomson/Thomas/Cours_3GI/S2/POO2/TP_POO_Kennedy/font.jpg");
+        ImageIcon imageIcon = new ImageIcon("/home/tomson/Thomas/Cours_3GI/S2/POO2/TP-POO-Kennedy/fontGestionObjets.jpg");
         Image image = imageIcon.getImage();
 
         JPanel pane = new JPanel() { // panneau de fond
@@ -23,6 +22,7 @@ public class GestionObjets extends JPanel{
         pane.setOpaque(false);  // important pour rendre le fond transparent
 
         // Composants du formulaire
+        UIManager.put("Label.foreground", Color.BLACK);//Couleur des Labels
         JLabel labelId = new JLabel("Identifiant de l'objet:");
         JTextField champId = new JTextField(20);
 
@@ -58,8 +58,9 @@ public class GestionObjets extends JPanel{
             }
 
             // Vérification du numéro de téléphone (9 chiffres)
-            if (!Telephone.matches("\\d{9}")) {
-                JOptionPane.showMessageDialog(null, "Le numéro de téléphone doit être un entier de 9 chiffres.");
+            if (!Telephone.matches("\\d{9}") || Telephone.charAt(0)!='6') {
+                JOptionPane.showMessageDialog(null, "Le numéro de téléphone doit être un entier de 9 chiffres"
+                +" sans espace commençant par le chiffre 6");
                 return;
             }
             // Affichage des données saisies (ou traitement de l'inscription)
@@ -99,7 +100,12 @@ public class GestionObjets extends JPanel{
         });
         boutonBack.addActionListener(e->{
             this.removeAll();
-            this.add(this.previous);
+            Welcome welcome = new Welcome();
+            Window thisWindow = SwingUtilities.getWindowAncestor(this);
+            if(thisWindow != null){
+                thisWindow.dispose();
+            }
+
         });
 
         // Ajouter les composants au panneau

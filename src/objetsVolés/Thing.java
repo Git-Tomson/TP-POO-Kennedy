@@ -1,6 +1,5 @@
 package objetsVolés;
 
-import com.mysql.cj.x.protobuf.MysqlxExpr;
 
 public abstract class Thing {
     private String Id;

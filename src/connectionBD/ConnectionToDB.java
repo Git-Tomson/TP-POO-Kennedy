@@ -10,16 +10,26 @@ ne dépendre que d'une classe abstraite car cette classe doit instancier un obje
 BD*/
 
 public abstract class ConnectionToDB {
-    public static Connection connection;
+    protected static Connection connection;
     public ConnectionToDB(){
     }
+
+    public void createConnection(){
+
+    }
+
     public Connection getConnection(){
         return this.connection;
     }
+
     public void closeConnection(){
         try{
-            this.connection.close();
-            System.out.println("Fermeture réussie");
+            if(!(this.connection == null || this.connection.isClosed())){
+                this.connection.close();
+                System.out.println("Fermeture réussie");
+            }else{
+                System.out.println("Connection non ouverte");
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             System.out.println("Fermeture échouée");

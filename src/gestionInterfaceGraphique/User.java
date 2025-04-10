@@ -1,10 +1,12 @@
 package gestionInterfaceGraphique;
 
+import connectionBD.ConnectionToDB;
+
 public abstract class User {
-    private String Name;
-    private String Firstname;
-    private int Tel;
-    private String Password;
+    protected String Name;
+    protected String Firstname;
+    protected int Tel;
+    protected String Password;
 
     public User() {
     }
@@ -41,6 +43,13 @@ public abstract class User {
     }
     public void setPassword(String Password){
         this.Password=Password;
+    }
+
+    public void insertUser(ConnectionToDB connectionToDB){
+
+    }
+    public String searchAndGetPassword(ConnectionToDB connectionToDB){
+        return null;
     }
 
 }

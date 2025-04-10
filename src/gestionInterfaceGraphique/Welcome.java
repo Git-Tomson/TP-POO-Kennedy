@@ -69,13 +69,17 @@ public class Welcome extends JFrame{
         //définissons l'action des boutons
         //Action du bouton B1 (Login)
         B1.addActionListener(e -> {
-            SignIn signInMySQL = new SignInMySQL(pane1);
+            SignIn signInMySQL = new SignInMySQL(pane1, connect);
             this.setContentPane(signInMySQL);
+            this.revalidate();
+            this.repaint();
         });
         //Action du Bouton B2 (sign in)
         B2.addActionListener(e ->{
-            SignUp signUpMySQL = new SignUpMySQL(pane1);
+            SignUp signUpMySQL = new SignUpMySQL(pane1, connect);
             this.setContentPane(signUpMySQL);
+            this.revalidate();
+            this.repaint();
         });
 
         this.addWindowListener(new WindowAdapter() {

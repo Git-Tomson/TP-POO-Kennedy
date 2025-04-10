@@ -1,12 +1,14 @@
 package gestionInterfaceGraphique;
 
+import connectionBD.ConnectionToDB;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class SignInMySQL extends SignIn {
-    public SignInMySQL(JPanel previous){
-        super(previous);
+    public SignInMySQL(JPanel previous, ConnectionToDB connectionToDB){
+        super(previous, connectionToDB);
         // Image de fond
         ImageIcon imageIcon = new ImageIcon("/home/tomson/Thomas/Cours_3GI/S2/POO2/TP-POO-Kennedy/fontSignIn.jpg");
         Image image = imageIcon.getImage();
@@ -42,30 +44,44 @@ public class SignInMySQL extends SignIn {
             String nom = champNom.getText();
             String prenom = champPrenom.getText();
             String mdp1 = new String(champMdp1.getPassword());
-            String mdp2="123456";
 
             // Vérification des champs obligatoires
             if (nom.isEmpty() || mdp1.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Tous les champs obligatoires doivent être remplis.");
                 return;
+            }else {
+                UserMySQL userMySQL = new UserMySQL();
+                userMySQL.setName(nom);
+                userMySQL.setFirstname(prenom);
+                userMySQL.setPassword(mdp1);
+                String mdp2 = userMySQL.searchAndGetPassword(connectionToDB);
+                if(mdp2 == null){
+                    JOptionPane.showMessageDialog(null, "Account not found"
+                    +" let's back and SignUp");
+                }else{
+                    //Vérification des mots de passe
+                    if (!mdp1.equals(mdp2)) {
+                        JOptionPane.showMessageDialog(null, "Incorrect Password");
+                        return;
+                    }else {
+                        // Affichage des données saisies (ou traitement de l'inscription)
+                        JOptionPane.showMessageDialog(null, "Connection réussie :\n" +
+                                "Bienvennue Mr/Mme"+ nom+" "+prenom);
+                        ThingsManagement thingsManagement = new ThingsManagement(connectionToDB);
+                        this.removeAll();
+                        this.add(thingsManagement);
+                        this.revalidate();
+                        this.repaint();
+                    }
+                }
             }
-            // Vérification des mots de passe
-            if (!mdp1.equals(mdp2)) {
-                JOptionPane.showMessageDialog(null, "Incorrect Password");
-                return;
-            }
-
-            // Affichage des données saisies (ou traitement de l'inscription)
-            JOptionPane.showMessageDialog(null, "Connection réussie :\n" +
-                    "Bienvennue Mr/Mme"+ nom+" "+prenom);
-            GestionObjets gestionObjets = new GestionObjets();
-            this.removeAll();
-            this.add(gestionObjets);
         });
 
         boutonBack.addActionListener(e->{
             this.removeAll();
             this.add(this.previous);
+            this.revalidate();
+            this.repaint();
         });
 
         // Ajouter les composants au panneau

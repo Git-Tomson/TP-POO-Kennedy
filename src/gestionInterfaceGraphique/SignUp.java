@@ -2,11 +2,14 @@ package gestionInterfaceGraphique;
 
 
 
+import connectionBD.ConnectionToDB;
+
 import javax.swing.*;
 
 public abstract class SignUp extends JPanel{
     protected JPanel previous;//Conteneur précédent de la fenêtre
-    public SignUp(JPanel previous){
+    protected ConnectionToDB connectionToDB;
+    public SignUp(JPanel previous, ConnectionToDB connectionToDB){
         super();
         if(this.previous != null){
             this.previous.removeAll();

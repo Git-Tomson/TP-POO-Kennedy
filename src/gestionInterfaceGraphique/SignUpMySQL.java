@@ -1,12 +1,14 @@
 package gestionInterfaceGraphique;
 
+import connectionBD.ConnectionToDB;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class SignUpMySQL extends SignUp {
-    public SignUpMySQL(JPanel previous){
-        super(previous);
+    public SignUpMySQL(JPanel previous, ConnectionToDB connectionToDB){
+        super(previous, connectionToDB);
         // Image de fond
         ImageIcon imageIcon = new ImageIcon("/home/tomson/Thomas/Cours_3GI/S2/POO2/TP-POO-Kennedy/fontSignUp.jpg");
         Image image = imageIcon.getImage();
@@ -65,7 +67,7 @@ public class SignUpMySQL extends SignUp {
             }
 
             //Vérification de la taille des mots de passe
-            if(!(mdp1.length() == 6 && mdp2.length() == 6)){
+            if(!(mdp1.length() >= 6 && mdp2.length() >= 6)){
                 JOptionPane.showMessageDialog(null, "Les mots de passe doivent avoir au moins 6 caractères");
                 return;
             }
@@ -83,16 +85,21 @@ public class SignUpMySQL extends SignUp {
                     "Prénom : " + prenom + "\n" +
                     "Téléphone : " + telephone);
             User userMySQL = new UserMySQL(nom, prenom, Integer.parseInt(telephone), mdp1);
-            GestionObjets gestionObjets = new GestionObjets();
+            userMySQL.insertUser(connectionToDB);
+            ThingsManagement thingsManagement = new ThingsManagement(connectionToDB);
             if(this != null){
                 this.removeAll();
             }
-            this.add(gestionObjets);
+            this.add(thingsManagement);
+            this.revalidate();
+            this.repaint();
         });
 
         boutonBack.addActionListener(e->{
             if(this != null){
                 this.removeAll();
+                this.revalidate();
+                this.repaint();
             }
             this.add(this.previous);
         });
